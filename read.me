@@ -1,0 +1,42 @@
+#  Passa a Bola – Arquitetura IoT (Sprint 3)
+
+##  Integrantes
+- Eric Yang  
+- Raul Laguna  
+- Henrique Fara  
+- Piettra Sattolo  
+- Pedro Gomez  
+
+---
+
+##  Descrição do Projeto
+O projeto **Passa a Bola** tem como objetivo aplicar conceitos de **IoT (Internet das Coisas)** no contexto esportivo, criando uma solução capaz de monitorar em tempo real eventos relevantes em partidas de futebol.  
+
+Nesta Sprint foi desenvolvida a **primeira versão da arquitetura IoT**, integrando sensores, comunicação via MQTT e gerenciamento dos dados em plataformas externas.
+
+---
+
+##  Arquitetura Proposta
+A aplicação segue a seguinte arquitetura:
+
+- **Dispositivos IoT**:  
+  - **Sensor DHT22** → coleta temperatura e umidade do ambiente.  
+  - **Sensor PIR** → detecta movimento (ex.: simulação de gol).  
+  - **ESP32** → microcontrolador responsável pela conexão Wi-Fi e envio dos dados.
+
+- **Protocolo de Comunicação**:  
+  - **MQTT** via broker público (HiveMQ).
+
+- **Plataforma de Gerenciamento**:  
+  - **Node-RED** para tratamento, visualização e lógica de automação.  
+  - Possibilidade de integração com **FIWARE** para armazenamento e análise de dados.  
+
+###  Diagrama da Arquitetura
+
+```mermaid
+graph TD
+  A[Sensor DHT22] -->|Temperatura/Umidade| C[ESP32]
+  B[Sensor PIR] -->|Movimento| C[ESP32]
+  C -->|MQTT| D[Broker HiveMQ]
+  D -->|MQTT| E[Node-RED]
+  E -->|Dashboard/Health Check|
