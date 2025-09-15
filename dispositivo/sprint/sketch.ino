@@ -79,7 +79,7 @@ void reconnect() {
     if (client.connect(clientId.c_str())) {
       Serial.println("Conectado ao broker MQTT!");
       client.publish("passaabola/status", "online");
-      client.subscribe("passaabola/controle"); // Exemplo de tópico assinado
+      client.subscribe("passaabola/controle"); 
     } else {
       Serial.print("Falhou, rc=");
       Serial.print(client.state());
@@ -117,7 +117,7 @@ void loop() {
     // ------ Leitura DHT22 ------
     TempAndHumidity data = dhtSensor.getTempAndHumidity();
 
-    // Boas práticas: verificar se os dados são válidos
+    // verificar se os dados são válidos
     if (!isnan(data.temperature) && !isnan(data.humidity)) {
       // Converte valores para string e envia via MQTT
       String temp = String(data.temperature, 2);
@@ -145,5 +145,5 @@ void loop() {
     client.publish("passaabola/sensor1/motion", "no_motion");
   }
   
-  delay(2000); // Boa prática: trocar por millis() futuramente
+  delay(2000); 
 }

@@ -1,6 +1,6 @@
-#  Passa a Bola – Arquitetura IoT (Sprint 3)
+# Passa a Bola – Arquitetura IoT (Sprint 3)
 
-##  Integrantes
+## Integrantes
 - Eric Yang  
 - Raul Laguna  
 - Henrique Fara  
@@ -9,34 +9,92 @@
 
 ---
 
-##  Descrição do Projeto
-O projeto **Passa a Bola** tem como objetivo aplicar conceitos de **IoT (Internet das Coisas)** no contexto esportivo, criando uma solução capaz de monitorar em tempo real eventos relevantes em partidas de futebol.  
+## Descrição do Projeto
+O projeto **Passa a Bola** aplica conceitos de **IoT (Internet das Coisas)** no contexto esportivo, criando uma solução capaz de monitorar em tempo real eventos relevantes em partidas de futebol.  
 
-Nesta Sprint foi desenvolvida a **primeira versão da arquitetura IoT**, integrando sensores, comunicação via MQTT e gerenciamento dos dados em plataformas externas.
+Nesta Sprint foi desenvolvida a **primeira versão da arquitetura IoT**, integrando sensores, comunicação via **MQTT** e gerenciamento dos dados em plataformas externas.
 
 ---
 
-##  Arquitetura Proposta
+## Arquitetura Proposta
 A aplicação segue a seguinte arquitetura:
 
-- **Dispositivos IoT**:  
-  - **Sensor DHT22** → coleta temperatura e umidade do ambiente.  
-  - **Sensor PIR** → detecta movimento (ex.: simulação de gol).  
-  - **ESP32** → microcontrolador responsável pela conexão Wi-Fi e envio dos dados.
+### Dispositivos IoT
+- **Sensor DHT22** → coleta temperatura e umidade do ambiente.  
+- **Sensor PIR** → detecta movimento (ex.: simulação de gol).  
+- **ESP32** → microcontrolador responsável pela conexão Wi-Fi e envio dos dados.  
 
-- **Protocolo de Comunicação**:  
-  - **MQTT** via broker público (HiveMQ).
+### Protocolo de Comunicação
+- **MQTT** via broker público (HiveMQ).  
 
-- **Plataforma de Gerenciamento**:  
-  - **Node-RED** para tratamento, visualização e lógica de automação.  
-  - Possibilidade de integração com **FIWARE** para armazenamento e análise de dados.  
+### Plataforma de Gerenciamento
+- **Node-RED** → tratamento, visualização e lógica de automação.  
+- Integração opcional com **FIWARE** para armazenamento e análise de dados.  
 
-###  Diagrama da Arquitetura
+---
 
+## Diagrama da Arquitetura
 ```mermaid
 graph TD
   A[Sensor DHT22] -->|Temperatura/Umidade| C[ESP32]
   B[Sensor PIR] -->|Movimento| C[ESP32]
   C -->|MQTT| D[Broker HiveMQ]
   D -->|MQTT| E[Node-RED]
-  E -->|Dashboard/Health Check|
+  E -->|Dashboard/Health Check| F[Usuários]
+  E -. opcional .-> G[FIWARE / Orion / DB]
+
+---
+
+# Recursos Necessários
+🔌 Hardware
+
+ - 1× ESP32 DevKit v1 (ou similar)
+ - 1× Sensor DHT22 (temperatura/umidade)
+ - 1× Sensor PIR HC-SR501 (movimento)
+ - Protoboard, jumpers e alimentação
+ - Rede Wi-Fi 2.4GHz disponível
+
+# Software
+
+ - Arduino IDE (ou PlatformIO)
+
+# Bibliotecas:
+
+ - DHT sensor library (Adafruit)
+ - Adafruit Unified Sensor
+ - PubSubClient
+ - WiFi
+ - Node-RED 
+ - Broker MQTT (HiveMQ público ou instância própria)
+
+# Instruções de Uso
+🔹 Configuração do ESP32
+
+ 1. Abra o código em /firmware/esp32_passa_bola.ino.
+ 2. Configure o SSID, senha do Wi-Fi e o host do broker MQTT.
+ 3. Faça upload para o ESP32.
+
+🔹 Configuração do Node-RED
+
+ 1. Importe o fluxo disponível em /flows/passa-bola-flow.json.
+ 2. Ajuste o nó MQTT para apontar ao mesmo broker usado no ESP32.
+ 3. Acesse o Dashboard via: http://localhost:1880/ui
+.
+
+# Estrutura do Repositório
+
+SPRINT---EDGE-COMPUTING/
+│
+├── diagramas/
+│   ├── Imagem do WhatsApp de 2025-09-12 ... (vários arquivos de imagem)
+│
+├── dispositivo\sprint/
+│   ├── diagram.json
+│   ├── libraries.txt
+│   ├── sketch.ino
+│   ├── wokwi-project.txt
+│
+├── node-red/
+│   ├── flows.json
+│
+├── read.me
